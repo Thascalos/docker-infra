@@ -1,0 +1,9 @@
+---
+# This playbook sets up whole stack.
+ 
+- name: Infrastructure provisioning to servers
+  hosts: containers_dev
+  remote_user: root # Remote user
+  become: yes
+  roles:
+    - setup

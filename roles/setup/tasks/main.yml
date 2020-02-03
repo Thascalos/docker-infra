@@ -1,0 +1,38 @@
+---
+# This playbook contains all actions that will be run on "local" host.
+ 
+# sudo apt-get update
+- name: Update apt packages
+  apt:
+    update_cache: yes
+  tags:
+    - system
+
+- name: Upgrade all packages to the latest version
+  apt:
+    name: "*"
+    state: latest
+  tags:
+    - system
+ 
+# Import docker tasks
+- name: Importing docker tasks
+  include_tasks: 02-docker.yml
+
+# Import users tasks
+- name: Running users import and configuring
+  include_tasks: 03-create-users.yml
+ 
+# sudo apt-get autoclean
+- name: Remove useless apt packages from the cache
+  apt:
+    autoclean: yes
+  tags:
+    - system
+ 
+# sudo apt-get autoremove
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+  tags:
+    - system
