@@ -1,0 +1,7 @@
+---
+- name: Initial service user setup
+  hosts: all
+  remote_user: vagrant # Remote user
+  become: yes
+  roles:
+    - init

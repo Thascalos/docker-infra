@@ -1,0 +1,27 @@
+--- 
+- 
+  name: "Create user accounts"
+  user: 
+    groups: sudo
+    name: ec2-user
+    shell: /bin/bash
+    state: present
+- 
+  authorized_key: 
+    key: "{{ lookup('file', 'keys/' + 'ec2-user.pub') }}"
+    user: ec2-user
+  name: "Add authorized keys"
+- 
+  lineinfile: 
+    dest: /etc/sudoers
+    line: "%sudo ALL=(ALL) NOPASSWD: ALL"
+    regexp: ^%sudo
+    state: present
+  name: "Allow admin users to sudo without a password"
+- 
+  lineinfile: 
+    dest: /etc/ssh/sshd_config
+    line: "PermitRootLogin no"
+    regexp: ^PermitRootLogin
+  name: "Disable root login via SSH"
+  notify: "Restart sshd"

@@ -9,6 +9,7 @@
     - curl
     - software-properties-common
     - htop
+    - gnupg
   tags:
     - docker
     

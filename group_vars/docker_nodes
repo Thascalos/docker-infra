@@ -1,6 +1,5 @@
 ---
 ansible_python_interpreter: /usr/bin/python3
-remote_user: ec2_user
 docker_group: docker
 users:
     - username: "dds"

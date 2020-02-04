@@ -1,6 +1,4 @@
----
-# This playbook contains all actions that will be run on "local" host.
- 
+--- 
 # sudo apt-get update
 - name: Update apt packages
   apt:
@@ -15,6 +13,15 @@
   tags:
     - system
  
+- name: Ensure hostname set
+  raw:  "hostnamectl set-hostname {{ inventory_hostname }}"
+
+- name: Ensure hostname is in /etc/hosts
+  lineinfile:
+    dest=/etc/hosts
+    regexp="^{{ ansible_default_ipv4.address }}.+$"
+    line="{{ ansible_default_ipv4.address }} {{ ansible_fqdn }} {{ inventory_hostname }}"
+
 # Import docker tasks
 - name: Importing docker tasks
   include_tasks: 02-docker.yml
